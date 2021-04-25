@@ -3,21 +3,24 @@ package io.turq.turq.service.impl;
 import io.turq.turq.config.JwtTokenUtil;
 import io.turq.turq.contstants.APIErrors;
 import io.turq.turq.entities.ContestEntity;
+import io.turq.turq.entities.ContestStatusEntity;
 import io.turq.turq.entities.LegislationEntity;
 import io.turq.turq.entities.UserEntity;
 import io.turq.turq.exceptions.ContestNotFoundException;
+import io.turq.turq.exceptions.ContestStatusInvalidException;
 import io.turq.turq.exceptions.ForbiddenException;
 import io.turq.turq.model.contest.ContestRequest;
+import io.turq.turq.model.contest.ContestUpdateRequest;
 import io.turq.turq.repository.ContestRepository;
 import io.turq.turq.service.interfaces.IContestService;
+import io.turq.turq.service.interfaces.IContestStatusService;
 import io.turq.turq.service.interfaces.ILegislationService;
 import io.turq.turq.service.interfaces.IUserService;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Optional;
 
 @Component
 public class ContestService implements IContestService {
@@ -30,6 +33,9 @@ public class ContestService implements IContestService {
 
     @Autowired
     private ILegislationService legislationService;
+
+    @Autowired
+    private IContestStatusService contestStatusService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -87,6 +93,33 @@ public class ContestService implements IContestService {
                 retContest = repository.save(new ContestEntity(contest.getId(), req.getTitle(), req.getEndDate(), req.getRules(), req.getCriteria(), false, req.getDescription(), contest.getAuthor()));
             }
         } catch (DataIntegrityViolationException e){
+            System.out.println("PSQL Data Integrity Violation Exception: " + e.getMessage());
+            retContest = null;
+        }
+        return retContest;
+    }
+
+    @Override
+    public ContestEntity updateStatus(
+        ContestUpdateRequest req,
+        String token,
+        long id
+    ) {
+        ContestEntity retContest = null;
+        Boolean isAdmin = jwtTokenUtil.isAdmin(token);
+        try {
+            ContestEntity contest = this.findById(id);
+            ContestStatusEntity status = contestStatusService.findById(req.getStatus());
+            if (contest == null) {
+                throw new ContestNotFoundException(APIErrors.CONTEST_NOT_FOUND);
+            } else if (!isAdmin) {
+                throw new ForbiddenException(APIErrors.CONTEST_UPDATE_PERMISSION);
+            } else if (status == null) {
+                throw new ContestStatusInvalidException(APIErrors.CONTEST_STATUS_INVALID);
+            } else {
+                retContest = repository.save(new ContestEntity(contest.getId(), status));
+            }
+        } catch (DataIntegrityViolationException e) {
             System.out.println("PSQL Data Integrity Violation Exception: " + e.getMessage());
             retContest = null;
         }

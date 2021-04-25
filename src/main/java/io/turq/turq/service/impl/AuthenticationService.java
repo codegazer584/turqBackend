@@ -46,7 +46,7 @@ public class AuthenticationService implements IAuthenticationService {
         }
         UserEntity user = userService.save(req.getFirstName(), req.getLastName(), req.getEmail(), req.getPassword());
         if (user != null) {
-            token = jwtTokenUtil.generateJwt(req.getEmail());
+            token = jwtTokenUtil.generateJwt(req.getEmail(), user.getAdmin());
         }
         RegisterResponse res = new RegisterResponse(token, user);
         return res;
@@ -57,8 +57,9 @@ public class AuthenticationService implements IAuthenticationService {
         req.setEmail(req.getEmail().toLowerCase());
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(req.getEmail().toLowerCase(), req.getPassword());
         authenticationManager.authenticate(authReq);
+        UserEntity user = userService.findByEmail(req.getEmail());
         req.setPassword(bCryptPasswordEncoder.encode(req.getPassword()));
-        String token = jwtTokenUtil.generateJwt(req.getEmail());
+        String token = jwtTokenUtil.generateJwt(req.getEmail(), user.getAdmin());
         LoginResponse res = new LoginResponse(token, req.getEmail());
         return res;
     }

@@ -18,6 +18,7 @@ public class UserEntity {
         this.last_name = last_name;
         this.email = email;
         this.password = password;
+
     }
 
     @Id
@@ -27,6 +28,7 @@ public class UserEntity {
     private String first_name;
     private String last_name;
     private String email;
+    private Boolean admin;
     @JsonIgnore
     private String password;
 

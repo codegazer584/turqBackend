@@ -13,5 +13,6 @@ public interface IContestService {
     List<LegislationEntity> getLegislationByContest(long contestId);
     ContestEntity createContest(ContestRequest req, String token);
     ContestEntity updateContest(ContestRequest req, String token, long id);
+    ContestEntity updateStatus(ContestUpdateRequest req, String token, long id);
     void deleteContest(String token, long id);
 }

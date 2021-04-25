@@ -38,6 +38,11 @@ public class ContestEntity {
         this.author = author;
     }
 
+    public ContestEntity(long id, ContestStatusEntity status) {
+        this.id = id;
+        this.status = status;
+    }
+
     @PostLoad
     private void setPrize() {
         this.prize = payments.stream().mapToLong(a -> a.getAmount()).sum();
@@ -61,4 +66,7 @@ public class ContestEntity {
     @OneToMany
     @JoinColumn(name="contest_id")
     private List<PaymentsEntity> payments;
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "contests_status_id_fkey"))
+    private ContestStatusEntity status;
 }

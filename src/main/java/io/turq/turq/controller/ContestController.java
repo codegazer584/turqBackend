@@ -4,6 +4,7 @@ import io.turq.turq.contstants.UrlConstants;
 import io.turq.turq.entities.ContestEntity;
 import io.turq.turq.entities.LegislationEntity;
 import io.turq.turq.model.contest.ContestRequest;
+import io.turq.turq.model.contest.ContestUpdateRequest;
 import io.turq.turq.service.interfaces.IContestService;
 import io.turq.turq.service.interfaces.ILegislationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,13 @@ public class ContestController {
     @PutMapping(path = UrlConstants.CONTEST_URL + "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity updateContest(@RequestBody ContestRequest req, @RequestHeader (name="Authorization") String token, @PathVariable long id) {
         ContestEntity contest = contestService.updateContest(req, token, id);
+        return ResponseEntity.ok(contest);
+    }
+
+    @PostMapping(path = UrlConstants.CONTEST_URL + "/{id}/updateStatus", consumes="application/json", produces = "application/json")
+    public ResponseEntity updateContestStatus(@RequestBody ContestUpdateRequest req, @RequestHeader (name="Authorization") String token, @PathVariable long id) {
+
+        ContestEntity contest = contestService.updateStatus(req, token, id);
         return ResponseEntity.ok(contest);
     }
 
