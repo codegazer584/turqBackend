@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
   last_name text                         ,
   email text UNIQUE                      NOT NULL,
   password text                          NOT NULL,
-  admin BOOL DEFAULT 'false'
+  admin BOOL DEFAULT 'false'             NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS contest_status (

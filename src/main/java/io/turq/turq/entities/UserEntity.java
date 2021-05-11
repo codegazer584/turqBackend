@@ -13,12 +13,12 @@ import javax.persistence.*;
 @Table(name = "users")
 public class UserEntity {
 
-    public UserEntity(String first_name, String last_name, String email, String password) {
+    public UserEntity(String first_name, String last_name, String email, String password, Boolean admin) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
-
+        this.admin = admin;
     }
 
     @Id

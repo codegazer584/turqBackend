@@ -44,7 +44,7 @@ public class AuthenticationService implements IAuthenticationService {
         if (existing != null) {
             throw new UserAlreadyExistsException(APIErrors.USER_ALREADY_EXISTS);
         }
-        UserEntity user = userService.save(req.getFirstName(), req.getLastName(), req.getEmail(), req.getPassword());
+        UserEntity user = userService.save(req.getFirstName(), req.getLastName(), req.getEmail(), req.getPassword(), false);
         if (user != null) {
             token = jwtTokenUtil.generateJwt(req.getEmail(), user.getAdmin());
         }
