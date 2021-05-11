@@ -9,7 +9,7 @@ In order to run in, please set the env variables in the .env file.
 
 Once done, run the following command:
 
-`docker-compose up`
+`docker-compose --env-file .env up`
 # Push to AWS
 `aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 503410576865.dkr.ecr.us-east-2.amazonaws.com`
 
