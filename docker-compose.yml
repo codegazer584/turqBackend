@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${postgres_user} 
+      POSTGRES_PASSWORD: ${postgres_pass}
+    ports: 
+      - '5432:5432'
+    volumes:
+      - ./db/create:/docker-entrypoint-initdb.d/
+
+  turq:
+    image: turq:dev
+    environment:
+      jwt_secret: ${jwt_secret}
+      postgres_user: ${postgres_user}
+      postgres_pass: ${postgres_pass}
+      postgres_url: ${postgres_url}
+      stripe_key: ${stripe_key}
+    depends_on:
+      - postgres
+    ports:
+      - '8080:8080'
