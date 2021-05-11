@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
   last_name text                         ,
   email text UNIQUE                      NOT NULL,
   password text                          NOT NULL,
-  admin BOOL DEFAULT 'false'             NOT NULL
+  admin BOOL DEFAULT 'false'
 );
 
 CREATE TABLE IF NOT EXISTS contest_status (
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS contests (
   description TEXT                       NOT NULL,
   approved BOOL DEFAULT 'false'          NOT NULL,
   author_id INT REFERENCES users (id)    NOT NULL,
-  status INT REFERENCES contest_status (id) NOT NULL
+  status_id INT REFERENCES contest_status (id) NOT NULL
 );
 
 INSERT INTO contest_status (id, status) VALUES (0, 'Fund Raising');

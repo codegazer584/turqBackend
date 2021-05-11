@@ -117,7 +117,16 @@ public class ContestService implements IContestService {
             } else if (status == null) {
                 throw new ContestStatusInvalidException(APIErrors.CONTEST_STATUS_INVALID);
             } else {
-                retContest = repository.save(new ContestEntity(contest.getId(), status));
+                retContest = repository.save(new ContestEntity(
+                    contest.getId(),
+                    contest.getTitle(),
+                    contest.getEndDate(),
+                    contest.getRules(),
+                    contest.getCriteria(),
+                    true,
+                    contest.getDescription(),
+                    contest.getAuthor(),
+                    status));
             }
         } catch (DataIntegrityViolationException e) {
             System.out.println("PSQL Data Integrity Violation Exception: " + e.getMessage());

@@ -38,8 +38,15 @@ public class ContestEntity {
         this.author = author;
     }
 
-    public ContestEntity(long id, ContestStatusEntity status) {
+    public ContestEntity(long id, String title, Date endDate, String rules, String criteria, boolean approved, String description, UserEntity author, ContestStatusEntity status) {
         this.id = id;
+        this.title = title;
+        this.endDate = endDate;
+        this.rules = rules;
+        this.criteria = criteria;
+        this.approved = approved;
+        this.description = description;
+        this.author = author;
         this.status = status;
     }
 
