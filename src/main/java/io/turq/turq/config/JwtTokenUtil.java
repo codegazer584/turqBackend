@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.Claim;
 import io.turq.turq.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +38,18 @@ public class JwtTokenUtil {
         return retClaim;
     }
 
+    public Boolean isAdmin(String token) {
+        Claim retClaim = null;
+        token = token.replace(TOKEN_PREFIX, "");
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            retClaim = jwt.getClaim("admin");
+        } catch (JWTDecodeException exception){
+            System.out.println("Received Malformed JWT: " + token);
+        }
+        return retClaim.asBoolean();
+    }
+
     public String verifyJwt(String token) {
           String user = null;
           Date expiresAt = null;
@@ -61,10 +74,11 @@ public class JwtTokenUtil {
         return user;
      }
 
-    public String generateJwt(String email) {
+    public String generateJwt(String email, Boolean admin) {
 
         return JWT.create()
                 .withSubject(email)
+                .withClaim("admin", admin)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512( jwtSecret) );
     }

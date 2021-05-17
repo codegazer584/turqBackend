@@ -38,6 +38,18 @@ public class ContestEntity {
         this.author = author;
     }
 
+    public ContestEntity(long id, String title, Date endDate, String rules, String criteria, boolean approved, String description, UserEntity author, ContestStatusEntity status) {
+        this.id = id;
+        this.title = title;
+        this.endDate = endDate;
+        this.rules = rules;
+        this.criteria = criteria;
+        this.approved = approved;
+        this.description = description;
+        this.author = author;
+        this.status = status;
+    }
+
     @PostLoad
     private void setPrize() {
         this.prize = payments.stream().mapToLong(a -> a.getAmount()).sum();
@@ -61,4 +73,7 @@ public class ContestEntity {
     @OneToMany
     @JoinColumn(name="contest_id")
     private List<PaymentsEntity> payments;
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "contests_status_id_fkey"))
+    private ContestStatusEntity status;
 }

@@ -22,12 +22,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserEntity save(String firstName, String lastName, String email, String password) {
+    public UserEntity save(String firstName, String lastName, String email, String password, Boolean admin) {
         UserEntity retUser = null;
         if (email == null || password == null)
           throw new UserBadRequestException(APIErrors.USER_BAD_REQUEST);
         try {
-            UserEntity user = new UserEntity(firstName, lastName, email, password);
+            UserEntity user = new UserEntity(firstName, lastName, email, password, admin);
             retUser = repository.save(user);
         } catch (DataIntegrityViolationException e) {
             System.out.println("PSQL Data Integrity Violation Exception: " + e.getMessage());

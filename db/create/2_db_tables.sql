@@ -1,10 +1,16 @@
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY                  NOT NULL,
-  username text                        ,
-  first_name text                        ,
+  username text                          ,
+  first_name text                         ,
   last_name text                         ,
   email text UNIQUE                      NOT NULL,
-  password text                          NOT NULL
+  password text                          NOT NULL,
+  admin BOOL DEFAULT 'false'             NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS contest_status (
+  id SERIAL PRIMARY KEY                   NOT NULL,
+  status TEXT                             NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS contests (
@@ -15,8 +21,19 @@ CREATE TABLE IF NOT EXISTS contests (
   criteria TEXT                          ,
   description TEXT                       NOT NULL,
   approved BOOL DEFAULT 'false'          NOT NULL,
-  author_id INT REFERENCES users (id)    NOT NULL
+  author_id INT REFERENCES users (id)    NOT NULL,
+  status_id INT REFERENCES contest_status (id) NOT NULL
 );
+
+INSERT INTO contest_status (id, status) VALUES (0, 'Fund Raising');
+INSERT INTO contest_status (id, status) VALUES (1, 'Drafting in Progress');
+INSERT INTO contest_status (id, status) VALUES (2, 'Submission in Progress');
+INSERT INTO contest_status (id, status) VALUES (3, 'Receiving Bill Number');
+INSERT INTO contest_status (id, status) VALUES (4, '1st Committee');
+INSERT INTO contest_status (id, status) VALUES (5, '1st Chamber');
+INSERT INTO contest_status (id, status) VALUES (6, '2nd Committee');
+INSERT INTO contest_status (id, status) VALUES (7, '2nd Chamber');
+INSERT INTO contest_status (id, status) VALUES (8, 'Executive');
 
 CREATE TABLE IF NOT EXISTS payment_status (
   id SERIAL PRIMARY KEY                  NOT NULL,
