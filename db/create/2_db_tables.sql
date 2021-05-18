@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS contests (
   description TEXT                       NOT NULL,
   approved BOOL DEFAULT 'false'          NOT NULL,
   author_id INT REFERENCES users (id)    NOT NULL,
-  status_id INT REFERENCES contest_status (id) NOT NULL
+  status_id INT DEFAULT 0 REFERENCES contest_status (id) NOT NULL
 );
 
 INSERT INTO contest_status (id, status) VALUES (0, 'Fund Raising');
