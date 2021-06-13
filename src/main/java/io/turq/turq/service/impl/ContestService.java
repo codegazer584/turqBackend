@@ -67,10 +67,19 @@ public class ContestService implements IContestService {
     @Override
     public ContestEntity createContest(ContestRequest req, String token) {
         ContestEntity retContest = null;
+        ContestStatusEntity status = contestStatusService.findById(req.getStatus());
         String authorEmail = jwtTokenUtil.getSubject(token);
         try {
             UserEntity author = userService.findByEmail(authorEmail);
-            ContestEntity contest = new ContestEntity(req.getTitle(), req.getEndDate(), req.getRules(), req.getCriteria(), true, req.getDescription(), author);
+            ContestEntity contest = new ContestEntity(
+              req.getTitle(),
+              req.getEndDate(),
+              req.getRules(),
+              req.getCriteria(),
+              true,
+              req.getDescription(),
+              author,
+              status);
             retContest = repository.save(contest);
         } catch (DataIntegrityViolationException e){
             System.out.println("PSQL Data Integrity Violation Exception: " + e.getMessage());
@@ -84,13 +93,27 @@ public class ContestService implements IContestService {
         ContestEntity retContest = null;
         String authorEmail = jwtTokenUtil.getSubject(token);
         try {
+
             ContestEntity contest = this.findById(id);
+            ContestStatusEntity status = contestStatusService.findById(req.getStatus());
+
             if (contest == null) {
                 throw new ContestNotFoundException(APIErrors.CONTEST_NOT_FOUND);
             } else if (!contest.getAuthor().getEmail().equalsIgnoreCase(authorEmail)) {
                 throw new ForbiddenException(APIErrors.CONTEST_UPDATE_PERMISSION);
+            } else if (status == null) {
+                throw new ContestStatusInvalidException(APIErrors.CONTEST_STATUS_INVALID);
             } else {
-                retContest = repository.save(new ContestEntity(contest.getId(), req.getTitle(), req.getEndDate(), req.getRules(), req.getCriteria(), false, req.getDescription(), contest.getAuthor()));
+                retContest = repository.save(new ContestEntity(
+                  contest.getId(),
+                  req.getTitle(),
+                  req.getEndDate(),
+                  req.getRules(),
+                  req.getCriteria(),
+                  false,
+                  req.getDescription(),
+                  contest.getAuthor(),
+                  status));
             }
         } catch (DataIntegrityViolationException e){
             System.out.println("PSQL Data Integrity Violation Exception: " + e.getMessage());

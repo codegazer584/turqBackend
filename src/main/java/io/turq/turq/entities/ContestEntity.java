@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Data
+@DynamicUpdate
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "contests")
@@ -28,7 +30,7 @@ public class ContestEntity {
         this.author = author;
     }
 
-    public ContestEntity(String title, Date endDate, String rules, String criteria, boolean approved, String description, UserEntity author) {
+    public ContestEntity(String title, Date endDate, String rules, String criteria, boolean approved, String description, UserEntity author, ContestStatusEntity status) {
         this.title = title;
         this.endDate = endDate;
         this.rules = rules;
@@ -36,6 +38,7 @@ public class ContestEntity {
         this.approved = approved;
         this.description = description;
         this.author = author;
+        this.status = status;
     }
 
     public ContestEntity(long id, String title, Date endDate, String rules, String criteria, boolean approved, String description, UserEntity author, ContestStatusEntity status) {
@@ -71,7 +74,7 @@ public class ContestEntity {
     private UserEntity author;
     @JsonIgnore
     @OneToMany
-    @JoinColumn(name="contest_id")
+    @JoinColumn(name="contest_id", updatable = false)
     private List<PaymentsEntity> payments;
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "contests_status_id_fkey"))

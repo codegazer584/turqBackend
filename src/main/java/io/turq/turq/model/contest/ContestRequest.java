@@ -16,4 +16,5 @@ public class ContestRequest {
     private String rules;
     private String criteria;
     private String description;
+    private int status;
 }
