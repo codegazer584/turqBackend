@@ -21,6 +21,12 @@ public class PaymentsEntity {
         this.status = status;
     }
 
+    public PaymentsEntity(long amount, UserEntity author, int status) {
+        this.amount = amount;
+        this.author = author;
+        this.status = status;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

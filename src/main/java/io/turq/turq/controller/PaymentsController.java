@@ -21,4 +21,10 @@ public class PaymentsController {
       PaymentResponse res = paymentsService.processPayment(req, token, contestId);
       return ResponseEntity.ok(res);
   }
+
+  @PostMapping(path = UrlConstants.PAYMENTS_URL + "/support", consumes = "application/json", produces = "application/json")
+  public ResponseEntity getPayments(@RequestBody PaymentRequest req, @RequestHeader(name="Authorization") String token) {
+      PaymentResponse res = paymentsService.processPayment(req, token);
+      return ResponseEntity.ok(res);
+  }
 }

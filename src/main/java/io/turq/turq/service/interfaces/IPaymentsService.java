@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IPaymentsService {
     PaymentResponse processPayment(PaymentRequest req, String token, long contestId);
+    PaymentResponse processPayment(PaymentRequest req, String token);
 }

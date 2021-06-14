@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS payments (
   id SERIAL PRIMARY KEY                  NOT NULL,
   amount INT                             NOT NULL,
   author_id INT REFERENCES users (id)    NOT NULL,
-  contest_id INT REFERENCES contests (id) NOT NULL,
+  contest_id INT REFERENCES contests (id) ,
   status INT REFERENCES payment_status (id) NOT NULL
 );
 

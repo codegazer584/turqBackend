@@ -70,4 +70,37 @@ public class PaymentsService implements IPaymentsService {
 
         return res;
     }
+
+    public PaymentResponse processPayment(PaymentRequest req, String token) {
+
+        PaymentResponse res = new PaymentResponse();
+        String authorEmail = jwtTokenUtil.getSubject(token);
+        long amount = req.getAmount();
+
+        try {
+            UserEntity author = userService.findByEmail(authorEmail);
+            Stripe.apiKey = stripeKey;
+
+            PaymentIntentCreateParams params =
+                    PaymentIntentCreateParams.builder()
+                            .setAmount(amount)
+                            // Only supporting USD for now
+                            .setCurrency("usd")
+                            // Only card payments today
+                            .addPaymentMethodType("card")
+                            .setReceiptEmail(authorEmail)
+                            .build();
+
+            PaymentIntent paymentIntent = PaymentIntent.create(params);
+            paymentsRepository.save(new PaymentsEntity(amount, author, 0));
+
+            res.setSecret(paymentIntent.getClientSecret());
+
+        } catch (StripeException e) {
+            System.out.println("STRIPE ERROR: " + e);
+            throw new UserBadRequestException("Stripe Failed");
+        }
+
+        return res;
+    }
 }
