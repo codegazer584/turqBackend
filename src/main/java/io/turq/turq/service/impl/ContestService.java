@@ -54,6 +54,16 @@ public class ContestService implements IContestService {
         }
         return contest.get();
     }
+
+    // @Override
+    // public ContestEntity findByEmail(String email) {
+    //     Optional<ContestEntity> contest = repository.findById(id);
+    //     if (contest.isEmpty()) {
+    //         throw new ContestNotFoundException(APIErrors.CONTEST_NOT_FOUND);
+    //     }
+    //     return contest.get();
+    // }
+
     @Override
     public List<LegislationEntity> getLegislationByContest(long contestId) {
         ContestEntity contest = this.findById(contestId);

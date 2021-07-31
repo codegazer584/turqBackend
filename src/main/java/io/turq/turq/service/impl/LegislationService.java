@@ -7,6 +7,7 @@ import io.turq.turq.entities.LegislationEntity;
 import io.turq.turq.entities.UserEntity;
 import io.turq.turq.exceptions.LegislationNotFoundException;
 import io.turq.turq.exceptions.ForbiddenException;
+import io.turq.turq.exceptions.UserBadRequestException;
 import io.turq.turq.model.legislation.LegislationRequest;
 import io.turq.turq.repository.LegislationRepository;
 import io.turq.turq.service.interfaces.IContestService;
@@ -53,6 +54,18 @@ public class LegislationService implements ILegislationService {
             throw new LegislationNotFoundException(APIErrors.LEGISLATION_NOT_FOUND);
         }
        return legislation.get();
+    }
+
+    @Override
+    public LegislationEntity findByEmail(String email) {
+        if (email == null)
+            throw new UserBadRequestException(APIErrors.USER_BAD_REQUEST);
+        UserEntity author = userService.findByEmail(email);
+        List<LegislationEntity> legislation = repository.findByAuthor(author.getId());
+        if (legislation.isEmpty()) {
+            throw new LegislationNotFoundException(APIErrors.LEGISLATION_NOT_FOUND);
+        }
+       return legislation.get(1);
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.List;
 public interface IContestService {
     List<ContestEntity> findAll();
     ContestEntity findById(long id);
+    //ContestEntity findByEmail(String email);
     List<LegislationEntity> getLegislationByContest(long contestId);
     ContestEntity createContest(ContestRequest req, String token);
     ContestEntity updateContest(ContestRequest req, String token, long id);

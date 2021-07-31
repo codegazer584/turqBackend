@@ -14,8 +14,8 @@ import javax.persistence.*;
 public class UserEntity {
 
     public UserEntity(String first_name, String last_name, String email, String password, Boolean admin) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstname = first_name;
+        this.lastname = last_name;
         this.email = email;
         this.password = password;
         this.admin = admin;
@@ -25,8 +25,8 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private long id;
-    private String first_name;
-    private String last_name;
+    private String firstname;
+    private String lastname;
     private String email;
     private Boolean admin;
     @JsonIgnore

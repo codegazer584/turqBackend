@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
               .antMatchers(HttpMethod.GET, CONTEST_URL + "/**").permitAll()
               .antMatchers(HttpMethod.GET, LEGISLATION_URL + "/**").permitAll()
               .antMatchers(HttpMethod.POST, PAYMENTS_URL + "/**").permitAll()
+              .antMatchers(HttpMethod.POST, USERS_URL + "/**").permitAll()
               .anyRequest().authenticated()
               .and()
           // this disables session creation on Spring Security

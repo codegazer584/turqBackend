@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY                  NOT NULL,
   username text                          ,
-  first_name text                         ,
-  last_name text                         ,
+  firstname text                         ,
+  lastname text                         ,
   email text UNIQUE                      NOT NULL,
   password text                          NOT NULL,
   admin BOOL DEFAULT 'false'             NOT NULL

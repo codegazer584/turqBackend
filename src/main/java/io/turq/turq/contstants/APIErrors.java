@@ -5,6 +5,8 @@ public class APIErrors {
     public static final String EMAIL_ALREADY_USED = "The supplied email address has already been registered";
     public static final String USER_BAD_REQUEST = "One or more of the following required fields were not supplied: name, email";
     public static final String USER_ALREADY_EXISTS = "A user with that email address has already been registered";
+    public static final String USER_NOT_FOUND = "The specified user does not exist";
+    public static final String USER_UPDATE_PERMISSION = "You are not authorized to update this user details";
     // Contest
     public static final String CONTEST_NOT_FOUND = "The specified contest does not exist";
     public static final String CONTEST_UPDATE_PERMISSION = "You are not authorized to update this contest";

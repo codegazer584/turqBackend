@@ -10,4 +10,7 @@ public interface LegislationRepository extends CrudRepository<LegislationEntity,
 
     @Query("SELECT l FROM LegislationEntity l WHERE contest_id = ?1")
     List<LegislationEntity> findByContest(long contestId);
+
+    @Query("SELECT l FROM LegislationEntity l WHERE author_id = ?1")
+    List<LegislationEntity> findByAuthor(long authorId);
 }

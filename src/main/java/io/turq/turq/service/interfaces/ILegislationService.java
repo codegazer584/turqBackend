@@ -10,6 +10,7 @@ public interface ILegislationService {
     List<LegislationEntity> findAll();
     LegislationEntity findById(long id);
     List<LegislationEntity> findByContest(long contestId);
+    LegislationEntity findByEmail(String email);
     LegislationEntity createLegislation(LegislationRequest req, String token);
     LegislationEntity updateLegislation(LegislationRequest req, String token, long id);
     void deleteLegislation(String token, long id);

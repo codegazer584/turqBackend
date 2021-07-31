@@ -12,4 +12,6 @@ public class UrlConstants {
     public static final String PAYMENTS_URL = "/payments";
     // Status
     public static final String HEALTH_CHECK_URL = "/actuator/health";
+    // Users
+    public static final String USERS_URL = "/users";
 }
